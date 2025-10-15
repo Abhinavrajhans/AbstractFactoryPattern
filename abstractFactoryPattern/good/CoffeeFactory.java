@@ -8,7 +8,7 @@ import abstractFactoryPattern.good.ingredientFactoryImpl.PremiumIngredientFactor
 
 public class CoffeeFactory {
 
-    public static Coffee createCoffee(String type, String variant) {
+    public Coffee createCoffee(String type, String variant) {
         IngredientFactory factory;
 
         // Choose ingredient factory based on variant

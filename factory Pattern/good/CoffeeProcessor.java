@@ -1,11 +1,13 @@
 package good;
 
 public class CoffeeProcessor {
-
-
-    public Coffee prepareCoffee(String whichcoffee)
-    {
-        Coffee coffee = new CoffeeFactory().getCoffee(whichcoffee);
-        return coffee;
+    private final CoffeeFactory coffeeFactory;
+    
+    public CoffeeProcessor() {
+        this.coffeeFactory = new CoffeeFactory();
+    }
+    
+    public Coffee prepareCoffee(String coffeeType) {
+        return coffeeFactory.getCoffee(coffeeType);
     }
 }

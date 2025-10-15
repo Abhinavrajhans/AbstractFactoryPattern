@@ -1,6 +1,5 @@
 package abstractFactoryPattern.good;
 
-import abstractFactoryPattern.good.factory.IngredientFactory;
 import abstractFactoryPattern.good.coffeeType.CoffeeType;
 import abstractFactoryPattern.good.milk.Milk;
 import abstractFactoryPattern.good.sugar.Sugar;

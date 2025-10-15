@@ -1,7 +1,6 @@
 package abstractFactoryPattern.good;
 
-import abstractFactoryPattern.good.CoffeeProcessor;
-import abstractFactoryPattern.good.Coffee;
+
 
 public class CoffeeShop {
     public static void main(String[] args) {

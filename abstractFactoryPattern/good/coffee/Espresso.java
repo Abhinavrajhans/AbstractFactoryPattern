@@ -3,9 +3,9 @@ package abstractFactoryPattern.good.coffee;
 import abstractFactoryPattern.good.Coffee;
 import abstractFactoryPattern.good.IngredientFactory;
 
-public class Espresso extends Coffee {  // ✅ Espresso
-
-    public Espresso(IngredientFactory factory) {  // ✅ matches class name
+public class Espresso extends Coffee { 
+    
+    public Espresso(IngredientFactory factory) {  
         super(factory);
     }
 

@@ -3,7 +3,7 @@ package abstractFactoryPattern.good.coffee;
 import abstractFactoryPattern.good.Coffee;
 import abstractFactoryPattern.good.IngredientFactory;
 
-public class Cappuccino extends Coffee {  // ✅ Fixed spelling
+public class Cappuccino extends Coffee { 
 
     public Cappuccino(IngredientFactory factory) {
         super(factory);

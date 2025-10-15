@@ -17,7 +17,6 @@ public abstract class Coffee {
         this.coffeeType = factory.createCoffeeType();
     }
 
-    // ✅ make these public
     public abstract void brew();
     public abstract void boil();
     public abstract void freeze();

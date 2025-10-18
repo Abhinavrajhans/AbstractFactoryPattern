@@ -1,0 +1,75 @@
+package good.state;
+
+import good.Enums.ATMState;
+import good.models.Card;
+import good.services.CardManagerService;
+import good.models.ATM;
+import good.apis.BackendAPI;
+import good.factories.CardManagerFactory;
+import good.state.DispensingCashState;
+
+public class ReadingCashWithdrawalDetailsState implements State {
+    
+    private final ATM atm;
+    private final BackendAPI backendAPI;
+    private final CardManagerFactory cardManagerFactory;
+
+    public ReadingCashWithdrawalDetailsState(ATM atm, BackendAPI backendAPI) {
+        this.atm = atm;
+        this.backendAPI = backendAPI;
+        this.cardManagerFactory = new CardManagerFactory(backendAPI);
+    }
+
+    @Override
+    public int initTransaction() {
+       throw new IllegalStateException("Cannot initialize transaction while reading cash withdrawal details.");
+    }
+
+    @Override
+    public boolean readCardDetailsAndPin(Card card,String pin) {
+       throw new IllegalStateException("Cannot read card details and PIN while reading cash withdrawal details.");
+    }
+
+
+    @Override
+    public int dispenseCash(Card card ,int amount,int transactionId) {
+        throw new IllegalStateException("Cannot dispense cash while reading cash withdrawal details.");
+    }
+
+    @Override
+    public void ejectCard(int transactionId) {
+        throw new IllegalStateException("Cannot eject card while reading cash withdrawal details.");
+    }
+
+    @Override
+    public boolean readCashWithdrawalDetails(Card card ,int transactionId, int amount) {
+        CardManagerService manager= cardManagerFactory.getCardManagerService(card.getCardType());
+        boolean isWithdrawalAmountValid= manager.validateWithdrawalAmount(transactionId, amount);
+        if(isWithdrawalAmountValid){
+            atm.setState(new DispensingCashState(atm, backendAPI));
+        }
+        else{
+            // on invalid amount , move back to ready for transaction state
+            atm.setState(new EjectingCardState(atm, backendAPI));
+        }
+   
+        return isWithdrawalAmountValid;
+    }
+
+    @Override
+    public ATMState getState() {
+        return ATMState.READING_CASH_WITHDRAWAL_DETAILS;
+    }
+
+    @Override
+    public boolean cancelTransaction(int transactionId) {
+        try{
+            this.atm.setState(new ReadyForTransactionState(atm, backendAPI));
+            return true;
+        }
+        catch(Exception e){
+            throw new IllegalStateException("Cannot cancel transaction at this moment.");
+        }
+    }
+    
+}

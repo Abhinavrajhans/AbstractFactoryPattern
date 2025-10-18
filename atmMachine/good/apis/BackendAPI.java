@@ -4,7 +4,6 @@ import good.dto.CreateTransactionRequestDTO;
 import good.dto.GetATMAmountRequestDTO;
 import good.dto.UpdateATMStateRequestDTO;
 import good.dto.ValidateCardRequestDTO;
-import good.models.Card;
 
 public interface BackendAPI {
     

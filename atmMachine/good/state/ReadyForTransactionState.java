@@ -4,18 +4,15 @@ package good.state;
 import good.Enums.ATMState;
 import good.models.Card;
 import good.models.ATM;
-import good.apis.BackendAPI;
 import good.dto.CreateTransactionRequestDTO;
 
 public class ReadyForTransactionState implements State {
     // when the ATM is in ready_For_transaction state it can only start a new transaction
 
     private final ATM atm;
-    private final BackendAPI backendAPI;
 
-    public ReadyForTransactionState(ATM atm, BackendAPI backendAPI) {
+    public ReadyForTransactionState(ATM atm) {
         this.atm = atm;
-        this.backendAPI = backendAPI;
     }
 
     @Override
@@ -24,7 +21,7 @@ public class ReadyForTransactionState implements State {
         CreateTransactionRequestDTO createTransactionDTO = new CreateTransactionRequestDTO(atm.getAtmId());
         // we should have used a adapeter pattern to convert the CreateTransactionDTO to the format required by the backendAPI
         // and should have used the builder pattern also .
-        int newTransactionID = this.backendAPI.createTransaction(createTransactionDTO);
+        int newTransactionID =atm.getBackendAPI().createTransaction(createTransactionDTO);
 
         if (newTransactionID <= 0) {
             throw new RuntimeException("Transaction could not be created.");
@@ -33,7 +30,7 @@ public class ReadyForTransactionState implements State {
         // now here we have to migrate for that we have to do 2 things 
         // 1. Tell the atm that your state is changing
         // 2. Tell the backend that the state of the ATM is changing
-        atm.setState(new ReadCardDetailsAndPinState(atm, backendAPI));
+        atm.setState(new ReadCardDetailsAndPinState(atm));
         return newTransactionID; // Return a transaction ID
     }
 

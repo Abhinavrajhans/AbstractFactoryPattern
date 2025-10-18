@@ -1,21 +1,15 @@
 package good.state;
 
 import good.Enums.ATMState;
-import good.apis.BackendAPI;
-import good.factories.CardManagerFactory;
 import good.models.ATM;
 import good.models.Card;
 
 public class EjectingCardState implements State{
      
     private final ATM atm;
-    private final BackendAPI backendAPI;
-    private final CardManagerFactory cardManagerFactory;
 
-    public EjectingCardState(ATM atm, BackendAPI backendAPI) {
+    public EjectingCardState(ATM atm) {
         this.atm = atm;
-        this.backendAPI = backendAPI;
-        this.cardManagerFactory = new CardManagerFactory(backendAPI);
     }
 
     @Override
@@ -37,7 +31,7 @@ public class EjectingCardState implements State{
     @Override
     public void ejectCard(int transactionId) {
         System.out.println("Card ejected , please take your card.");
-        this.atm.setState(new ReadyForTransactionState(atm, backendAPI));
+        this.atm.setState(new ReadyForTransactionState(atm));
 
     }
 

@@ -1,7 +1,6 @@
 package good.state;
 
 import good.Enums.ATMState;
-import good.apis.BackendAPI;
 import good.factories.CardManagerFactory;
 import good.models.ATM;
 import good.models.Card;
@@ -12,13 +11,12 @@ public class DispensingCashState implements State{
      
     private final ATM atm;
     private final CashDispenserService cashDispenserService;
-    private final BackendAPI backendAPI;
+
     private final CardManagerFactory cardManagerFactory;
 
-    public DispensingCashState(ATM atm, BackendAPI backendAPI,CashDispenserService cashDispenserService) {
+    public DispensingCashState(ATM atm, CashDispenserService cashDispenserService) {
         this.atm = atm;
-        this.backendAPI = backendAPI;
-        this.cardManagerFactory = new CardManagerFactory(backendAPI);
+        this.cardManagerFactory = new CardManagerFactory(atm.getBackendAPI());
         this.cashDispenserService = cashDispenserService;
     }
 
@@ -38,13 +36,13 @@ public class DispensingCashState implements State{
         CardManagerService manager= cardManagerFactory.getCardManagerService(card.getCardType());
         boolean isTransactionDone= manager.doTransaction( card, amount, transactionId);
         if(!isTransactionDone){
-            this.atm.setState(new ReadyForTransactionState(atm, backendAPI));
+            this.atm.setState(new ReadyForTransactionState(atm));
             throw new RuntimeException("Transaction failed. Cannot dispense cash.");
         }
 
         this.cashDispenserService.dispenseCash(atm,amount);
         // after dispensing cash move to ready for transaction state
-        atm.setState(new EjectingCardState(atm, backendAPI));
+        atm.setState(new EjectingCardState(atm));
         return amount;
     }
 

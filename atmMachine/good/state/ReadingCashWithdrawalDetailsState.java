@@ -4,20 +4,16 @@ import good.Enums.ATMState;
 import good.models.Card;
 import good.services.CardManagerService;
 import good.models.ATM;
-import good.apis.BackendAPI;
 import good.factories.CardManagerFactory;
-import good.state.DispensingCashState;
 
 public class ReadingCashWithdrawalDetailsState implements State {
     
     private final ATM atm;
-    private final BackendAPI backendAPI;
     private final CardManagerFactory cardManagerFactory;
 
-    public ReadingCashWithdrawalDetailsState(ATM atm, BackendAPI backendAPI) {
+    public ReadingCashWithdrawalDetailsState(ATM atm) {
         this.atm = atm;
-        this.backendAPI = backendAPI;
-        this.cardManagerFactory = new CardManagerFactory(backendAPI);
+        this.cardManagerFactory = new CardManagerFactory(atm.getBackendAPI());
     }
 
     @Override
@@ -41,18 +37,19 @@ public class ReadingCashWithdrawalDetailsState implements State {
         throw new IllegalStateException("Cannot eject card while reading cash withdrawal details.");
     }
 
+
     @Override
-    public boolean readCashWithdrawalDetails(Card card ,int transactionId, int amount) {
-        CardManagerService manager= cardManagerFactory.getCardManagerService(card.getCardType());
-        boolean isWithdrawalAmountValid= manager.validateWithdrawalAmount(transactionId, amount);
-        if(isWithdrawalAmountValid){
-            atm.setState(new DispensingCashState(atm, backendAPI));
+    public boolean readCashWithdrawalDetails(Card card, int transactionId, int amount) {
+        CardManagerService manager = cardManagerFactory.getCardManagerService(card.getCardType());
+        boolean isWithdrawalAmountValid = manager.validateWithdrawalAmount(transactionId, amount);
+        
+        if(isWithdrawalAmountValid) {
+            // Get service from ATM
+            atm.setState(new DispensingCashState(atm, atm.getCashDispenserService()));
+        } else {
+            atm.setState(new EjectingCardState(atm));
         }
-        else{
-            // on invalid amount , move back to ready for transaction state
-            atm.setState(new EjectingCardState(atm, backendAPI));
-        }
-   
+        
         return isWithdrawalAmountValid;
     }
 
@@ -64,7 +61,7 @@ public class ReadingCashWithdrawalDetailsState implements State {
     @Override
     public boolean cancelTransaction(int transactionId) {
         try{
-            this.atm.setState(new ReadyForTransactionState(atm, backendAPI));
+            this.atm.setState(new ReadyForTransactionState(atm));
             return true;
         }
         catch(Exception e){

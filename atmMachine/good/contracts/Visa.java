@@ -1,4 +1,4 @@
-package good.models;
+package good.contracts;
 
 public interface Visa {
     

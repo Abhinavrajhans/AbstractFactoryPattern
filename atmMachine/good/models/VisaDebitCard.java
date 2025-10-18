@@ -1,10 +1,11 @@
 package good.models;
 
 import good.Enums.CardType;
+import good.contracts.Debit;
+import good.contracts.Visa;
 
 public class VisaDebitCard extends Card implements Visa, Debit {
     
-
 
     public VisaDebitCard(long cardNumber,String pin, String name,CardType cardType, String bankName){ 
         super(cardNumber, pin, name, cardType, bankName);

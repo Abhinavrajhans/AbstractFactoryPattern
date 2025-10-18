@@ -14,20 +14,10 @@ public class CardManagerFactory {
         this.backendAPI = backendAPI;
     }
     
-    public CardManagerService getCardManagerService(CardType cardType)
-    {
-        CardManagerService cardManagerService = null;
-        if(cardType.equals(CardType.DEBIT))
-        {
-            cardManagerService = new DebitCardManagerService(backendAPI);
-        }
-        else if(cardType.equals(CardType.CREDIT))
-        {
-            cardManagerService = new CreditCardManagerService(backendAPI);
-        }  
-        else {
-            throw new IllegalArgumentException("Invalid Card Type");
-        }
-        return cardManagerService;
+    public CardManagerService getCardManagerService(CardType cardType) {
+        return switch(cardType) {
+            case DEBIT -> new DebitCardManagerService(backendAPI);
+            case CREDIT -> new CreditCardManagerService(backendAPI);
+        };
     }
 }

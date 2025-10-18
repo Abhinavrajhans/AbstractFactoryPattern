@@ -2,17 +2,14 @@ package good.state;
 import good.Enums.ATMState;
 import good.models.Card;
 import good.models.ATM;
-import good.factories.CardManagerFactory;
 import good.services.CardManagerService;
 
 public class ReadCardDetailsAndPinState implements State {
     
     private final ATM atm;
-    private final CardManagerFactory cardManagerFactory;
 
     public ReadCardDetailsAndPinState(ATM atm) {
         this.atm = atm;
-        this.cardManagerFactory = new CardManagerFactory(atm.getBackendAPI());
     }
 
     @Override
@@ -22,7 +19,7 @@ public class ReadCardDetailsAndPinState implements State {
 
     @Override
     public boolean readCardDetailsAndPin(Card card,String pin) {
-       CardManagerService manager= cardManagerFactory.getCardManagerService(card.getCardType());
+       CardManagerService manager= this.atm.getCardManagerFactory().getCardManagerService(card.getCardType());
        boolean isCardValid = manager.validateCard(card, pin);
        if(isCardValid) {
          // move to next state

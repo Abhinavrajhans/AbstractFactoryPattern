@@ -4,16 +4,13 @@ import good.Enums.ATMState;
 import good.models.Card;
 import good.services.CardManagerService;
 import good.models.ATM;
-import good.factories.CardManagerFactory;
 
 public class ReadingCashWithdrawalDetailsState implements State {
     
     private final ATM atm;
-    private final CardManagerFactory cardManagerFactory;
 
     public ReadingCashWithdrawalDetailsState(ATM atm) {
         this.atm = atm;
-        this.cardManagerFactory = new CardManagerFactory(atm.getBackendAPI());
     }
 
     @Override
@@ -40,12 +37,12 @@ public class ReadingCashWithdrawalDetailsState implements State {
 
     @Override
     public boolean readCashWithdrawalDetails(Card card, int transactionId, int amount) {
-        CardManagerService manager = cardManagerFactory.getCardManagerService(card.getCardType());
+        CardManagerService manager = this.atm.getCardManagerFactory().getCardManagerService(card.getCardType());
         boolean isWithdrawalAmountValid = manager.validateWithdrawalAmount(transactionId, amount);
         
         if(isWithdrawalAmountValid) {
             // Get service from ATM
-            atm.setState(new DispensingCashState(atm, atm.getCashDispenserService()));
+            atm.setState(new DispensingCashState(atm));
         } else {
             atm.setState(new EjectingCardState(atm));
         }

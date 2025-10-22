@@ -1,4 +1,5 @@
 package parkingLotProblem.models.parking;
 
-public class ElectricSlot {
+public interface ElectricSlot {
+    void chargeVehicle();
 }

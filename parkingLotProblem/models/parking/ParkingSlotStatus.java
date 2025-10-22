@@ -1,4 +1,6 @@
 package parkingLotProblem.models.parking;
 
-public class ParkingSlotStatus {
+public enum ParkingSlotStatus {
+    EMPTY,
+    OCCUPIED
 }

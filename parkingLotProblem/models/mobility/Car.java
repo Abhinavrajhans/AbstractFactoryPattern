@@ -1,4 +1,4 @@
-package parkingLotProblem.models;
+package parkingLotProblem.models.mobility;
 
 public class Car extends Vehicle{
 

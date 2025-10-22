@@ -1,10 +1,8 @@
-package parkingLotProblem.models;
-
-import parkingLotProblem.models.mobility.Bike;
+package parkingLotProblem.models.mobility;
 
 public class ElectricBike extends Vehicle implements ElectricVehicle{
 
-    ElectricBike(String registrationNumber, Bike.ColorType color){
+    ElectricBike(String registrationNumber,ColorType color){
         super(registrationNumber,color,VehicleType.ELECTRIC_BIKE);
     }
 

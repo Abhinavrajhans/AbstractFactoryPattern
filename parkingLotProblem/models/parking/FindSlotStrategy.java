@@ -1,4 +1,9 @@
 package parkingLotProblem.models.parking;
 
-public class FindSlotStrategy {
+import parkingLotProblem.models.mobility.Vehicle;
+
+import java.util.Optional;
+
+public interface FindSlotStrategy {
+    Optional<ParkingSlot> findSlot(ParkingLot parkingLot, Vehicle vehicle);
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Factory and Adapter Pattern.iml" filepath="$PROJECT_DIR$/Factory and Adapter Pattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/abstractFactoryPattern/abstractFactoryPattern.iml" filepath="$PROJECT_DIR$/abstractFactoryPattern/abstractFactoryPattern.iml" />
+    </modules>
+  </component>
+</project>

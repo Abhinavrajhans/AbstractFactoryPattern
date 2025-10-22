@@ -1,4 +1,7 @@
 package observerPattern.CricBuzz.good.subscribers;
 
-public class subscriber {
+import observerPattern.CricBuzz.good.producers.Producer;
+
+public interface Subscriber {
+    void update(Producer producer);
 }

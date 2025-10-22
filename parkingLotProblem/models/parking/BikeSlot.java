@@ -1,4 +1,4 @@
 package parkingLotProblem.models.parking;
 
-public class BikeSlot {
+public interface BikeSlot {
 }
